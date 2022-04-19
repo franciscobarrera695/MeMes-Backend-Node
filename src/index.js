@@ -27,7 +27,7 @@ app.use((req, res, next) => {
 
 
 
-const dominiosPermitidos = [process.env.REACT_FRONTEND_URL]
+const dominiosPermitidos = ['https://memes-web.herokuapp.com/']
 const corsOption = {
   origin:function(origin,callback){
     if(dominiosPermitidos.indexOf(origin) !== -1){
