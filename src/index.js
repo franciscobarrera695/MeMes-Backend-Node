@@ -13,7 +13,20 @@ config();
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(morgan("dev"));
-app.use(cors());
+
+const dominiosPermitidos = [process.env.REACT_FRONTEND_URL]
+const corsOption = {
+  origin:function(origin,callback){
+    if(dominiosPermitidos.indexOf(origin) !== -1){
+      //El orifin del Request esta permitido
+      callback(null,true)
+    }else{
+      callback(new Error('No permitido por CORS'))
+    }
+  }
+}
+
+app.use(cors(corsOption));
 app.use(authRoute);
 app.use(postRoute)
 
