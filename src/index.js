@@ -17,6 +17,6 @@ app.use(cors());
 app.use(authRoute);
 app.use(postRoute)
 
-app.listen(5000, () => {
+app.listen(process.env.PORT || 5000, () => {
   console.log("server listening");
 });
