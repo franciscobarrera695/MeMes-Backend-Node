@@ -3,18 +3,18 @@ import jwt from "jsonwebtoken";
 import Role from "../models/Role.js";
 
 export const register = async (req, res) => {
-  const { name, email, password, roles } = req.body;
+  const { name, email, password } = req.body;
 
   const user = new User({ name, email, password });
 
-  if (roles) {
+ /* if (roles) {
     const foundRoles = await Role.find({ name: { $in: roles } });
     user.roles = foundRoles.map((role) => role._id);
   } else {
     const role = await Role.findOne({ name: "user" });
 
     user.roles = [role._id];
-  }
+  }*/
   user.password = await user.encryptPassword(user.password);
 
   await user.save();

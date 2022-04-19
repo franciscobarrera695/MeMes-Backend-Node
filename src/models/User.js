@@ -8,12 +8,12 @@ const userSchema = new Schema(
     name: String,
     email: { type: String, required: true, unique: true },
     password: { type: String, required: true },
-    roles: [
+   /* roles: [
       {
         ref: "Role",
         type: Schema.Types.ObjectId,
       },
-    ],
+    ],*/
   },
   {
     versionKey: false,
