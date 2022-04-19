@@ -40,6 +40,7 @@ const corsOption = {
 }
 
 app.use(cors(corsOption));
+app.options(authRoute, cors(corsOption))
 app.use(authRoute);
 app.use(postRoute)
 
