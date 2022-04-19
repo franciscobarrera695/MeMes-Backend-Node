@@ -8,7 +8,7 @@ import postRoute from './routes/post.routes.js'
 import "./database.js";
 import { config } from "dotenv";
 const app = express();
-createRoles();
+//createRoles();
 config();
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
