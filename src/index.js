@@ -26,21 +26,8 @@ app.use((req, res, next) => {
 });
 
 
-
-const dominiosPermitidos = ['https://memes-web.netlify.app/']
-const corsOption = {
-  origin:function(origin,callback){
-    if(dominiosPermitidos.indexOf(origin) !== -1){
-      //El orifin del Request esta permitido
-      callback(null,true)
-    }else{
-      callback(new Error('No permitido por CORS'))
-    }
-  }
-}
-
-app.use(cors(corsOption));
-app.options(authRoute, cors(corsOption))
+app.use(cors());
+app.options("*", cors())
 app.use(authRoute);
 app.use(postRoute)
 
