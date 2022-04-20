@@ -26,8 +26,10 @@ app.use((req, res, next) => {
 });
 
 
-app.use(cors());
-app.options("*", cors())
+app.use(cors({
+  origin:"*"
+}));
+
 app.use(authRoute);
 app.use(postRoute)
 
