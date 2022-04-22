@@ -1,10 +1,15 @@
 import Post from '../models/Post.js'
 
 export const getPosts = async(req,res) => {
-    const posts = await Post.find().where('user_id').equals(req.userId)
+    try {
+        const posts = await Post.find().where('user_id').equals(req.userId)
     res.json(posts)
+    } catch (error) {
+        res.status(500).json({ message: error.message });
+    }
 }
 export const createPost = async(req,res) => {
+ try {
     const {title,image} = req.body
     const post = new Post({
         title,
@@ -14,6 +19,10 @@ export const createPost = async(req,res) => {
     })
     await post.save()
     res.json(post)
+ } catch (error) {
+    res.status(500).json({ message: error.message });
+     
+ }
 }
 
 export const getPostId = async (req,res) => {
@@ -21,20 +30,22 @@ export const getPostId = async (req,res) => {
 
 } 
 export const updatedPost = async(req,res)=>{
+   try {
     const id = req.params.id
     const updatePost = await Post.findByIdAndUpdate(id,req.body,{new:true})
     res.status(201).json(updatePost)
+   } catch (error) {
+    res.status(500).json({ message: error.message });
+       
+   }
 }
 export const deletePost = async(req,res)=>{
-    const id = req.params.id
-    const publicacion = await Post.findById(id)
-    if(!publicacion){
-        return res.status(404).json({msg:"No Encontrado"})
-    }
     try {
-        await publicacion.deleteOne()
-        res.json({msg:"Publicacion Eliminada"})
-    } catch (error) {
-        console.log(error)
-    }
+        const { id } = req.params;
+        const postDeleted = await Post.findByIdAndDelete(id);
+        if (!postDeleted) return res.status(404);
+        res.status(204);
+      } catch (error) {
+        res.status(500).json({ message: error.message });
+      }
 }

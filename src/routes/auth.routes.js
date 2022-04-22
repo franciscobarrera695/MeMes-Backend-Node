@@ -1,15 +1,15 @@
 import {Router} from 'express';
 
 
-import * as authController from '../controllers/auth.controller.js'
+import {register,login,list,me,updateProfile,updatePassword}from '../controllers/auth.controller.js'
 import { verifyToken } from '../middlewares/verifyToken.js';
 
 const router = Router()
 
-router.post('/api/register',authController.register)
-router.post('/api/login',authController.login)
-router.get('/api/list',authController.list)
-router.get('/api/perfil',verifyToken,authController.me)
-router.put('/api/perfil/:id',verifyToken,authController.updateProfile)
-router.put('/api/actualizar-password',verifyToken,authController.updatePassword)
+router.post('/api/register',register)
+router.post('/api/login',login)
+router.get('/api/list',list)
+router.get('/api/perfil',verifyToken,me)
+router.put('/api/perfil/:id',verifyToken,updateProfile)
+router.put('/api/actualizar-password',verifyToken,updatePassword)
 export default router

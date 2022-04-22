@@ -1,6 +1,6 @@
 import User from "../models/User.js";
 import jwt from "jsonwebtoken";
-import Role from "../models/Role.js";
+//import Role from "../models/Role.js";
 
 export const register = async (req, res) => {
   const { name, email, password } = req.body;
