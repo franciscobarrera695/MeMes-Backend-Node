@@ -1,15 +1,15 @@
 import {Router} from 'express';
 
 
-import * as postController from '../controllers/post.controller.js'
+import {getPosts,createPost,updatedPost,deletePost} from '../controllers/post.controller.js'
 import { verifyToken } from '../middlewares/verifyToken.js';
 
 const router = Router()
 
-router.get('/api/post',verifyToken,postController.getPosts)
-router.post('/api/post',verifyToken,postController.createPost)
-router.put('/api/post/:id',verifyToken,postController.updatedPost)
-router.delete('/api/post/:id',verifyToken,postController.deletePost)
+router.get('/api/post',verifyToken,getPosts)
+router.post('/api/post',verifyToken,createPost)
+router.put('/api/post/:id',verifyToken,updatedPost)
+router.delete('/api/post/:id',verifyToken,deletePost)
 
 
 
