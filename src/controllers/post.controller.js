@@ -1,4 +1,7 @@
 import Post from '../models/Post.js'
+import {uploadImage,deleteImage} from "../libs/cloudinary.js"
+import fs from "fs-extra"
+
 
 export const getPosts = async(req,res) => {
     try {
@@ -9,17 +12,29 @@ export const getPosts = async(req,res) => {
     }
 }
 export const createPost = async(req,res) => {
- try {
-    const {title,image} = req.body
-    const post = new Post({
-        title,
+    const {title} = req.body
+    try {
+
+   
+    let image;
+    if(req.files?.image){
+      const result = await uploadImage(req.files.image.tempFilePath)
+      image={
+        url:result.secure_url,
+        public_id:result.public_id
+      }
+      await fs.remove(req.files.image.tempFilePath)
+    }
+    const postSaved = new Post({ 
+        title, 
         image,
         created_at: new Date().getTime(),
-        user_id:req.userId,
-    })
-    await post.save()
-    res.json(post)
- } catch (error) {
+        user_id:req.userId
+    });
+    await postSaved.save();
+    res.json(postSaved)
+ } catch (error) { 
+     console.log(error)
     res.status(500).json({ message: error.message });
      
  }
@@ -33,6 +48,7 @@ export const updatedPost = async(req,res)=>{
    try {
     const id = req.params.id
     const updatePost = await Post.findByIdAndUpdate(id,req.body,{new:true})
+    
     res.status(201).json(updatePost)
    } catch (error) {
     res.status(500).json({ message: error.message });
@@ -42,8 +58,12 @@ export const updatedPost = async(req,res)=>{
 export const deletePost = async(req,res)=>{
     try {
         const { id } = req.params;
-        const postDeleted = await Post.findByIdAndDelete(id);
-        if (!postDeleted) return res.status(404);
+        const postDeleted = await Post.findById(id);
+           if (!postDeleted) return res.sendStatus(404);
+        await postDeleted.deleteOne()
+        if(postDeleted.image.public_id){
+          await deleteImage(postDeleted.image.public_id)
+        }
         res.status(204);
       } catch (error) {
         res.status(500).json({ message: error.message });

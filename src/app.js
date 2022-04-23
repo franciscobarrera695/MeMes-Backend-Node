@@ -1,6 +1,7 @@
 import express from "express";
 import morgan from "morgan";
 import cors from "cors";
+import fileUpload from "express-fileupload"
 import authRoute from "./routes/auth.routes.js";
 //import createRoles  from "./libs/initialSetup.js";
 import postRoute from './routes/post.routes.js'
@@ -12,6 +13,10 @@ config();
 //middlewares
 app.use(express.json());
 app.use(morgan("dev"));
+app.use(fileUpload({
+  useTempFiles:true,
+  tempFileDir:"./upload"
+}))
 
 app.use((req, res, next) => {
   res.header('Access-Control-Allow-Origin', '*');
