@@ -95,5 +95,8 @@ const {password_actual,password_nuevo} = req.body
     return res.status(400).json({msg:'El Password Actual es Incorrecto'})
   }
   //almacenar el nuevo password
-  
+}
+export const updateImageProfile = (req,res) =>{
+  console.log(req.files)
+ 
 }

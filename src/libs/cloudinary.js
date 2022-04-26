@@ -15,3 +15,9 @@ export const uploadImage = async filePath => {
 export const deleteImage = async id => {
     return await cloudinary.uploader.destroy(id)
 }
+
+export const uploadImageProfile = async filePath => {
+    return await cloudinary.uploader.upload(filePath,{
+        folder:'profile'
+    })
+}
