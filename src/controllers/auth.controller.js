@@ -2,6 +2,11 @@ import User from "../models/User.js";
 import jwt from "jsonwebtoken";
 //import Role from "../models/Role.js";
 
+import {uploadImageProfile} from "../libs/cloudinary.js"
+import fs from "fs-extra"
+
+
+
 export const register = async (req, res) => {
   const { name, email, password } = req.body;
 
@@ -96,7 +101,20 @@ const {password_actual,password_nuevo} = req.body
   }
   //almacenar el nuevo password
 }
-export const updateImageProfile = (req,res) =>{
-  console.log(req.files)
- 
+export const updateImageProfile = async(req,res) =>{
+  let image;
+  const user = await User.findById(req.userId)
+  if(!user){
+    return res.status(400).json({msg:"hubo un error"})
+  }
+    if(req.files.image){
+      const result = await uploadImageProfile(req.files.image.tempFilePath)
+      image={
+        url:result.secure_url,
+        public_id:result.public_id
+      }
+      await fs.remove(req.files.image.tempFilePath)
+    }
+    user.image = image
+    await user.save()
 }
