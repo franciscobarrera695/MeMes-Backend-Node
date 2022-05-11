@@ -6,12 +6,12 @@ import { verifyToken } from '../middlewares/verifyToken.js';
 
 const router = Router()
 
-router.get('/post',verifyToken,getPosts)
-router.post('/post',verifyToken,createPost)
-router.put('/post/:id',verifyToken,updatedPost)
-router.delete('/post/:id',verifyToken,deletePost)
+router.get('/api/post',verifyToken,getPosts)
+router.post('/api/post',verifyToken,createPost)
+router.put('/api/post/:id',verifyToken,updatedPost)
+router.delete('/api/post/:id',verifyToken,deletePost)
 
-router.get('/post-global',getPostsGlobal)
+router.get('/api/post-global',getPostsGlobal)
 
 
 

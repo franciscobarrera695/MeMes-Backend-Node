@@ -6,11 +6,11 @@ import { verifyToken } from '../middlewares/verifyToken.js';
 
 const router = Router()
 
-router.post('/register',register)
-router.post('/login',login)
-router.get('/list',list)
-router.get('/perfil',verifyToken,me)
-router.put('/perfil/:id',verifyToken,updateProfile)
-router.put('/actualizar-password',verifyToken,updatePassword)
-router.put('/actualizar-imagen-perfil',verifyToken,updateImageProfile)
+router.post('/api/register',register)
+router.post('/api/login',login)
+router.get('/api/list',list)
+router.get('/api/perfil',verifyToken,me)
+router.put('/api/perfil/:id',verifyToken,updateProfile)
+router.put('/api/actualizar-password',verifyToken,updatePassword)
+router.put('/api/actualizar-imagen-perfil',verifyToken,updateImageProfile)
 export default router
