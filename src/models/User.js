@@ -8,6 +8,10 @@ const userSchema = new Schema(
     name: String,
     email: { type: String, required: true, unique: true },
     password: { type: String, required: true },
+    image: {
+      url: String,
+      public_id: String,
+    },
    /* roles: [
       {
         ref: "Role",
@@ -25,8 +29,8 @@ userSchema.methods.encryptPassword = async (password) => {
   return bcrypt.hash(password, salt);
 };
 
-userSchema.methods.validatePassword = function async(password) {
-  return bcrypt.compare(password, this.password);
-};
+userSchema.methods.validatePassword = function async(password){
+  return bcrypt.compare(password,this.password)
+}
 
 export default model("User", userSchema);
