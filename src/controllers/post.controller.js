@@ -5,7 +5,7 @@ import fs from "fs-extra"
 
 export const getPosts = async(req,res) => {
     try {
-        const posts = await Post.find().where('user_id').equals(req.userId)
+        const posts = await Post.find().where('user_id').equals(req.userId.id)
     res.json(posts)
     } catch (error) {
         res.status(500).json({ message: error.message });
@@ -29,7 +29,8 @@ export const createPost = async(req,res) => {
         title, 
         image,
         created_at: new Date().getTime(),
-        user_id:req.userId
+        user_id:req.userId.id,
+        user_name:req.userId.name
     });
     await postSaved.save();
     res.json(postSaved)
@@ -68,4 +69,15 @@ export const deletePost = async(req,res)=>{
       } catch (error) {
         res.status(500).json({ message: error.message });
       }
+}
+
+
+export const getPostsGlobal = async(req,res) => {
+  try {
+      const posts = await Post.find().where('user_id')
+
+  res.json(posts)
+  } catch (error) {
+      res.status(500).json({ message: error.message });
+  }
 }

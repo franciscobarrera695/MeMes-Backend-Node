@@ -29,8 +29,8 @@ userSchema.methods.encryptPassword = async (password) => {
   return bcrypt.hash(password, salt);
 };
 
-userSchema.methods.validatePassword = function async(password) {
-  return bcrypt.compare(password, this.password);
-};
+userSchema.methods.validatePassword = function async(password){
+  return bcrypt.compare(password,this.password)
+}
 
 export default model("User", userSchema);

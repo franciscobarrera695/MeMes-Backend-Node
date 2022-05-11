@@ -12,7 +12,7 @@ export const verifyToken = (req,res,next)=>{
             })
         }
         const decoded = jwt.verify(token,'secret')
-        req.userId = decoded.id
+        req.userId = decoded
         next()
     }catch(error){
         console.log(error)

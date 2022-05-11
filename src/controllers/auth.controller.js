@@ -29,10 +29,17 @@ export const register = async (req, res) => {
 export const login = async (req, res) => {
   const { email, password } = req.body;
   const user = await User.findOne({ email: email });
+  
   if (!user) {
-    return res.status(404).json({ message: "user not found" });
+    return res.status(404).send("user not found" );
   }
-  const token = jwt.sign({ id: user._id }, "secret", {
+  const comparePassword = await user.validatePassword(password)
+  if(!comparePassword){
+    return res.status(404).send( "password not found" );
+  }
+  
+  
+  const token = jwt.sign({ id: user._id ,name:user.name}, "secret", {
     expiresIn: 60 * 60 * 24,
   });
   res.status(200).json({
@@ -50,7 +57,8 @@ export const list = async (req, res) => {
   res.json(user);
 };
 export const me = async (req, res) => {
-  const user = await User.findById(req.userId, { password: 0 });
+  const user = await User.findById(req.userId.id);
+  
   if (!user) {
     return res.status(404).send("No User Found");
   }
@@ -85,7 +93,7 @@ export const updatePassword = async(req,res) => {
   //leer los datos
 const {password_actual,password_nuevo} = req.body
   //comprobar que el veterinario exista
-  const user = await User.findById(req.userId)
+  const user = await User.findById(req.userId.id)
   if(!user){
     return res.status(400).json({msg:"hubo un error"})
   }
@@ -103,10 +111,13 @@ const {password_actual,password_nuevo} = req.body
 }
 export const updateImageProfile = async(req,res) =>{
   let image;
-  const user = await User.findById(req.userId)
+  const user = await User.findById(req.userId.id)
   if(!user){
     return res.status(400).json({msg:"hubo un error"})
   }
+    if(!req.files){
+      return res.status(400).json({msg:"hubo un error"})
+    }
     if(req.files.image){
       const result = await uploadImageProfile(req.files.image.tempFilePath)
       image={

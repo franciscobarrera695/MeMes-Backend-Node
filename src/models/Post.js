@@ -12,7 +12,8 @@ const postSchema = new Schema({
     type:Date,
     default:Date.now()
   },
-  user_id: { ref: "User", type: Schema.Types.ObjectId }
+  user_id: { ref: "User", type: Schema.Types.ObjectId },
+  user_name:String
 },{
   versionKey:false
 });
