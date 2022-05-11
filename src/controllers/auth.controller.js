@@ -23,9 +23,13 @@ export const register = async (req, res) => {
 };
 export const login = async (req, res) => {
   const { email, password } = req.body;
-  const user = await User.findOne({ email: email });
+  try {
+    const user = await User.findOne({ email: email });
   if (!user) {
     return res.status(404).json({ message: "user not found" });
+  }
+  } catch (error) {
+    console.log(error)
   }
   const token = jwt.sign({ id: user._id }, "secret", {
     expiresIn: 60 * 60 * 24,
