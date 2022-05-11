@@ -28,9 +28,6 @@ export const login = async (req, res) => {
   if (!user) {
     return res.status(404).json({ message: "user not found" });
   }
-  } catch (error) {
-    console.log(error)
-  }
   const token = jwt.sign({ id: user._id }, "secret", {
     expiresIn: 60 * 60 * 24,
   });
@@ -42,6 +39,10 @@ export const login = async (req, res) => {
     token,
     roles:user.roles
   });
+  } catch (error) {
+    console.log(error)
+  }
+ 
 };
 
 export const list = async (req, res) => {
